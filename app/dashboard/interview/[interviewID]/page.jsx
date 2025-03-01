@@ -7,12 +7,14 @@ import React, { useEffect, useState, use } from "react";
 import Webcam from "react-webcam";
 import { Lightbulb, Link, WebcamIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import { useRouter } from "next/navigation";
 
 
 
 function Interview({ params: paramsPromise }) {
   const params = use(paramsPromise);
+   const router = useRouter();
+
 
   const [interviewInfo, setInterviewInfo] = useState(null);
   const [webcamEnable, setWebcamEnable] = useState(false);
@@ -39,6 +41,16 @@ function Interview({ params: paramsPromise }) {
       console.error("Error fetching interview details:", error);
     }
   };
+
+
+  const handleStartInterview = () => {
+    router.push(`/dashboard/interview/${params.interviewID}/start`);
+  };
+
+  const handleCancel = () => {
+    router.push("/dashboard");
+  };
+
 
   return (
     <div className="my-10">
@@ -99,9 +111,9 @@ function Interview({ params: paramsPromise }) {
           )}
         </div>
       </div>
-      <div className="mt-5 flex justify-end items-end">
-       <Button>Start Interview</Button>
-       <Link href={'/dashboard/interview/'+params.interviewID+'/start'}><Button>Cancel</Button></Link>
+      <div className="mt-5 flex justify-end items-end gap-5">
+       <Button onClick={handleStartInterview}>Start Interview</Button>
+       <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
        </div>
     </div>
    
